@@ -119,4 +119,18 @@ const tools = [
   soon('translate-pdf', 'Translate PDF', 'ai', 'Translate a PDF into another language.'),
 ];
 
+// Titles (under 60 characters), descriptions (under 155) and headings from the SEO brief in docs/,
+// reworded where the brief described a feature the tool does not have yet.
+const seo = {
+  'compress-pdf': ['Compress PDF Online Free - Files Stay on Your Device', 'Compress a PDF in your browser. No upload, no account, and no daily limit. Shrink files for email, forms, and job applications, then download instantly.', 'Compress PDF'],
+  'merge-pdf': ['Merge PDF Files Free - Combine PDFs in Your Browser', 'Merge PDF files on your device. Put them in order, combine as many as you need, and download one PDF. No upload, no account, and no watermark.', 'Merge PDF files'],
+  'split-pdf': ['Split PDF Online Free - Extract Pages on Your Device', 'Split a PDF into separate files or extract the pages you need. Choose page ranges or every page. No upload and no account.', 'Split PDF'],
+  'pdf-to-jpg': ['PDF to JPG Converter Free - Every Page as an Image', 'Turn PDF pages into JPG images in your browser. Pick a resolution and download each page, or all of them as one ZIP. No upload required.', 'Convert PDF to JPG'],
+  'jpg-to-pdf': ['JPG to PDF Converter Free - Images Stay on Your Device', 'Convert JPG, PNG, and WebP images into a single PDF. Reorder pages, set page size and margins, and download. No account and no upload.', 'Convert JPG to PDF'],
+  'sign-pdf': ['Sign PDF Online Free - Draw It on Your Own Device', 'Sign a PDF in your browser. Draw your signature, place it on the page, then download. No account and no file upload. Not a certified e-sign platform.', 'Sign a PDF'],
+  'rotate-pdf': ['Rotate PDF Pages Free - Fix Direction in Your Browser', 'Rotate one page or a whole PDF, then save a new file. Runs on your device, with no account and no upload.', 'Rotate PDF pages'],
+  'organize-pdf': ['Organize PDF Pages Free - Reorder, Delete, Rotate', 'Reorder, delete, and rotate PDF pages in your browser. Download a cleaned file. No upload, no account, and no page-count paywall.', 'Organize PDF pages'],
+};
+for (const t of tools) if (seo[t.slug]) [t.title, t.meta, t.h1] = seo[t.slug];
+
 module.exports = { site, cats, tools };

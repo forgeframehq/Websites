@@ -1,0 +1,350 @@
+PDF Tools SEO and Launch Brief
+A build-ready SEO, architecture, and launch brief for a free online PDF toolkit. Claude can implement from the instructions at the end. The site has no name yet.
+On this page
+Positioning
+How this was researched
+Competitor landscape
+Keyword map
+Site architecture
+First 15 tool pages
+Technical SEO checklist
+Content plan
+Launch and link building
+Realistic expectations
+Instructions for Claude
+Positioning
+Recommended angle
+Build a free PDF toolkit that processes files in the browser. The files never leave the person's device, and there is no account, no daily or hourly task cap, and no watermark. Lead every headline with that promise, not with a generic \"all the PDF tools you need\" line that iLovePDF and Smallpdf already own.
+Three angles were compared. The first, in-browser privacy, is the clearest product gap. A 15 Nov 2026 comparison of nine major web toolkits (https://trencada.com/pdf-tools-benchmark-2026/) found that all nine upload files to servers for their web tools, and that none processed files in the browser on the free tier. iLovePDF, PDF24, and Sejda offer local processing only through installed apps, often with paid or Windows-only constraints. In-browser tools exist, but they are still a smaller category than the upload-based incumbents (see https://imisspdf.com/blog/10-in-browser-pdf-tools-no-upload-2026/).
+The second angle, no sign-up and no task caps, is necessary but not enough on its own. PDF24 already claims unrestricted free use, funded by ads, while still uploading files. Smallpdf's two-conversions-per-day cap, Adobe's one-free-transaction rule, and Sejda's three-tasks-per-hour rule are real pain points, and autocomplete plus rising searches are full of \"free no sign up\" variants. Combine this generosity with the privacy architecture, rather than trying to out-PDF24 PDF24 on \"unlimited\" alone.
+The third angle is use-case and target-size pages: compress to 1 MB or 200 KB, compress for email, sign or merge on iPhone, job-application file caps. These should be product features and content, not the only brand story.
+Working line, until a name is chosen: free PDF tools that run in your browser. Your files never leave your device. No account, no limits, no watermark. Be honest on pages where quality is hard (PDF to Word, PDF to Excel, OCR): ship a useful v1, state limits, and never copy competitor accuracy claims.
+How this was researched
+Competitor facts were taken from official pages fetched on 26 Nov 2026 (Atlantic/Bermuda), plus a small number of secondary pages that quote those official tables. Limits change; re-check pricing and tool pages before launch.
+Keyword volumes below are third-party estimates from KWS Trends reports dated 9 to 17 Nov 2026, which the reports describe as using Semrush rolling monthly averages, sometimes with a Google Ads Keyword Planner figure alongside. They are not official Google volumes, the two sources on the same report can disagree (for example, \"pdf to word\" is listed as about 300,000 US monthly searches on the Semrush average and 201,000 on Keyword Planner), and difficulty scores are similarly estimated. Treat them as order-of-magnitude guides.
+Where a reliable volume was not opened, keywords are ranked by qualitative evidence only: Google US autocomplete collected on 26 Nov 2026 via Google's suggest API, rising related searches on those KWS reports, and whether every major competitor already has a dedicated page. People Also Ask was not captured in a clean dataset, so it is not cited.
+Competitor landscape
+Head-term search results are concentrated. Mid-Nov 2026 top-result lists on the KWS Trends reports showed iLovePDF, Smallpdf, and Adobe in the first three organic positions for merge PDF, compress PDF, and PDF to Word, with PDF24 also present on compress. A new site should not plan to outrank those pages quickly on the bare head terms.
+
+| Competitor   | Free catch                                    | Where files go              | Opening to beat                         |
+| ------------ | --------------------------------------------- | --------------------------- | --------------------------------------- |
+| iLovePDF     | Per-task caps; tight on convert and OCR       | Servers, delete in 2 hours  | Upload plus quiet free limits           |
+| Smallpdf     | About 2 conversions a day; Pro features gated | Servers, delete in 1 hour   | Daily cap and paywalled strong compress |
+| PDF24        | No official task cap; funded by ads           | Servers, delete in 1 hour   | Ads and required upload on the web      |
+| Sejda        | 3 tasks per hour; page and MB caps            | Servers; desktop is local   | Hourly cap; merge cap is modest         |
+| PDF Candy    | Hourly limits; exact free caps unpublished    | Servers, delete in 2 hours  | Unclear free quota; uploads             |
+| Adobe online | 1 free job, or 1 premium job per 30 days      | Adobe cloud                 | Strictest quota and sign-in walls       |
+| TinyWow      | Claims no daily cap; ads and captcha          | Servers, delete in 1 hour   | Ads, tracking, tool-farm feel           |
+| Stirling PDF | Self-host; not a casual web app               | Your server, if you host it | Setup cost for ordinary users           |
+
+Open a competitor for URL, title, and limit detail. Figures are from the pages cited in each profile.
+iLovePDF
+Smallpdf
+PDF24
+Sejda
+PDF Candy
+Adobe Acrobat online
+TinyWow
+Stirling PDF
+Site
+https://www.ilovepdf.com/
+Positioning
+Every tool you need, in one place, described as 100% free and easy. Premium is sold for limits, apps, workflows, and an ad-free experience.
+Tool set
+Broad suite: merge, split, compress, Office and image conversions, edit, sign, watermark, rotate, unlock, protect, organize, PDF/A, repair, page numbers, scan, OCR, compare, redact, crop, forms, plus AI summarize and translate, and PDF to Markdown. Companion products include iLoveIMG, iLoveSign, and iLoveAPI.
+URL pattern
+Mostly root-level underscore slugs, such as /merge_pdf, /compress_pdf, /pdf_to_word, /split_pdf, /unlock_pdf.
+Title pattern
+Action-first, often with free or online: "Merge PDF files online. Free service to merge PDF"; "Compress PDF online. Same PDF quality less file size"; "PDF to WORD | Convert PDF to Word online for free".
+Meta pattern
+Short benefit plus "online, easily and free." Homepage: "iLovePDF is an online service to work with PDF files completely free and easy to use. Merge PDF, split PDF, compress PDF..."
+Free limits
+No single daily cap is published. Limits are per task. A 28 Oct 2026 read of the pricing comparison (cited in https://techpresso.co/reviews/ilovepdf-review) listed free caps such as merge 25 files / 100 MB, compress 2 files / 200 MB, PDF to Word and OCR 1 file / 15 MB, image to PDF 20 / 40 MB, edit 1 / 100 MB, sign 3 / 50 MB. Confirm on https://www.ilovepdf.com/pricing before launch, because the pricing page itself is table-heavy and changes.
+Where files go
+Web uploads go to iLovePDF servers (EEA by default) and are deleted within 2 hours, or immediately with Delete now. Desktop processes locally. Signed documents are kept longer (stated as 5 years) for audit trails. Source: https://www.ilovepdf.com/help/security
+Weaknesses to exploit
+Free use still uploads the file; free conversion and OCR caps are tight (15 MB / one file); ads on free; Premium is required for desktop, workflows, and higher limits. Homepage says tools are 100% free, which is easy to contrast with the paid limit table.
+Paid
+Premium from $5 / month billed annually or $9 billed monthly, as shown on the pricing page when fetched on 26 Nov 2026.
+Keyword map
+One URL per intent. Do not create separate pages for obvious synonyms (\"pdf merge\" and \"merge pdf\" share a page). Do create a page when the job changes (compress versus compress to 1 MB; PDF to Word versus Word to PDF).
+
+| Cluster              | Head terms and evidence                                                                                                                                                                                                                                                                            | Early long tails                                                                                                                                                                                                                                                       | Page                                                                       |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Compress             | compress pdf: about 140,000 US monthly (KWS 17 Nov 2026; Keyword Planner on that report 135,000). KD listed at 75. SERP led by Adobe, iLovePDF, Smallpdf.                                                                                                                                          | Autocomplete: compress pdf to 1mb / 200kb / 500kb / 2mb / 5mb / 10mb; compress pdf for email or email attachment; compress pdf for free no sign up; on Mac. Rising: compress pdf to 1mb free (900% on that report), to 300kb, to 200kb, how to compress pdf on iphone. | /compress-pdf plus /compress-pdf-to-1mb, and later /compress-pdf-for-email |
+| Merge and combine    | merge pdf: about 150,000 US monthly (KWS 9 Nov 2026; Keyword Planner 165,000). Related: pdf merger 120,000; pdf merge 100,000. SERP led by iLovePDF, Smallpdf, Adobe.                                                                                                                              | merge pdf free / online free / on iphone / on mac / on windows; merge images into pdf.                                                                                                                                                                                 | /merge-pdf                                                                 |
+| PDF to Word          | pdf to word: about 300,000 US monthly (KWS 13 Nov 2026; Keyword Planner 201,000). Related: convert pdf to word 150,000; pdf to word converter 74,000. SERP led by Smallpdf, iLovePDF, Adobe.                                                                                                       | pdf to word converter free; no sign up (rising 400% on that report); on Mac; on iPhone; scanned / OCR.                                                                                                                                                                 | /pdf-to-word                                                               |
+| Word to PDF          | word to pdf is listed as about 110,000 US monthly on the same pdf-to-word report (KD 77). Autocomplete is full of free / online / converter queries.                                                                                                                                               | word to pdf converter free; online free.                                                                                                                                                                                                                               | /word-to-pdf                                                               |
+| Split and organize   | split pdf: about 41,000 US monthly (KWS 9 Nov 2026; Keyword Planner 40,500). KD 45, a bit less brutal than compress.                                                                                                                                                                               | split into multiple files or individual pages; split online free; how to split pdf files (rising).                                                                                                                                                                     | /split-pdf and /organize-pdf                                               |
+| Images               | No volume report opened for pdf to jpg or jpg to pdf. Both appear in autocomplete and every major toolkit has both pages. Related searches around merge photos to PDF and HEIC to PDF are rising on the merge report.                                                                              | pdf to jpg on iphone or Mac; converter free online; later a HEIC to PDF page.                                                                                                                                                                                          | /pdf-to-jpg and /jpg-to-pdf                                                |
+| Sign and edit        | sign pdf: about 15,000 US monthly (KWS 15 Nov 2026; Keyword Planner 18,100). Edit/editor demand is clearly large from autocomplete and competitor investment, but a volume report was not opened here, so no number is given. Rising: free pdf editor no sign up, edit pdf online free no sign up. | sign pdf on iphone / android / mac; how to sign a pdf on iphone (related keyword about 2,400 on that report); free editor no sign up.                                                                                                                                  | /sign-pdf and /edit-pdf                                                    |
+| Security             | No volume report opened. Autocomplete is strong and every incumbent has both pages.                                                                                                                                                                                                                | unlock pdf without password (do not target as cracking); unlock for editing; protect from editing or copying; protect with password free.                                                                                                                              | /unlock-pdf and /protect-pdf                                               |
+| Convert data and OCR | No volume report opened for pdf to excel or ocr pdf. Autocomplete includes converter free, no sign up, and ocr pdf to word / to text. iLovePDF free OCR is capped at 1 file / 15 MB on the cited pricing table; Sejda free OCR at 10 pages. Quality is the bottleneck, not just SEO.               | pdf to excel table; ocr pdf free; ocr pdf to word.                                                                                                                                                                                                                     | /pdf-to-excel at launch; /ocr-pdf in phase 2 unless quality is ready       |
+| Rotate               | No volume report opened. Autocomplete and a simple in-browser implementation make this a worthwhile first-wave page, not a head-term bet.                                                                                                                                                          | rotate pdf pages; rotate pdf online free; rotate in Google Drive or Firefox (those are support-article opportunities, not tool promises).                                                                                                                              | /rotate-pdf                                                                |
+
+Site architecture
+Use kebab-case, no .html, no underscores, one host, English first at the root. Keep a named placeholder such as [Brand] out of the slugs so the URLs survive a naming decision. Preferred map:
+/
+/tools
+/compress-pdf
+/compress-pdf-to-1mb
+/merge-pdf
+/split-pdf
+/organize-pdf
+/pdf-to-word
+/word-to-pdf
+/pdf-to-jpg
+/jpg-to-pdf
+/pdf-to-excel
+/sign-pdf
+/edit-pdf
+/rotate-pdf
+/unlock-pdf
+/protect-pdf
+/blog
+/blog/{slug}
+/privacy
+/terms
+/security
+/about
+Copy
+Homepage: positioning, tool grid, trust (no upload, no account, no cap), and 3 to 4 featured tools. Not a thin doorway of links.
+/tools is a complete directory, grouped by job (organize, convert, compress, sign and edit, security), each card linking to the tool page.
+Each tool page is indexable HTML with the widget at the top and unique supporting content below. Do not make tool pages JavaScript shells with no crawlable text.
+Phase 2 slugs to reserve, not to thin-launch: /ocr-pdf, /watermark-pdf, /page-numbers, /pdf-to-png, /excel-to-pdf, /ppt-to-pdf, /pdf-to-ppt, /compress-pdf-for-email, /heic-to-pdf, /redact-pdf.
+If two URLs would answer the same job (extract pages vs split), keep one canonical and redirect the other.
+Later languages should follow PDF24's pattern: /es/compress-pdf with hreflang, not query-string locales.
+First 15 tool pages
+Build these in the order shown. The first five are the launch core: compress, merge, PDF to Word, split, and Word to PDF. Title lengths are character counts, including spaces, and stay under 60. Meta descriptions stay at or under 155.
+
+|   # | URL                  | Primary keyword     | Title chars |
+| --: | -------------------- | ------------------- | ----------: |
+|   1 | /compress-pdf        | compress pdf        |          52 |
+|   2 | /merge-pdf           | merge pdf           |          51 |
+|   3 | /pdf-to-word         | pdf to word         |          48 |
+|   4 | /split-pdf           | split pdf           |          52 |
+|   5 | /word-to-pdf         | word to pdf         |          48 |
+|   6 | /pdf-to-jpg          | pdf to jpg          |          50 |
+|   7 | /jpg-to-pdf          | jpg to pdf          |          54 |
+|   8 | /sign-pdf            | sign pdf            |          50 |
+|   9 | /rotate-pdf          | rotate pdf          |          53 |
+|  10 | /unlock-pdf          | unlock pdf          |          52 |
+|  11 | /protect-pdf         | protect pdf         |          53 |
+|  12 | /edit-pdf            | edit pdf            |          50 |
+|  13 | /pdf-to-excel        | pdf to excel        |          44 |
+|  14 | /compress-pdf-to-1mb | compress pdf to 1mb |          44 |
+|  15 | /organize-pdf        | organize pdf        |          49 |
+
+Select a page for the title, meta, H1, and on-page outline Claude should implement.
+1. compress pdf
+2. merge pdf
+3. pdf to word
+4. split pdf
+5. word to pdf
+6. pdf to jpg
+7. jpg to pdf
+8. sign pdf
+9. rotate pdf
+10. unlock pdf
+11. protect pdf
+12. edit pdf
+13. pdf to excel
+14. compress pdf to 1mb
+15. organize pdf
+URL
+/compress-pdf
+Primary keyword
+compress pdf
+Secondary terms
+compress pdf free; compress pdf online; compress pdf file size
+SEO title
+Compress PDF Online Free - Files Stay on Your Device (52 characters)
+Meta description
+Compress a PDF in your browser. No upload, no account, and no daily limit. Shrink files for email, forms, and job applications, then download instantly. (152 characters)
+H1
+Compress PDF
+On-page outline
+Open with the uploader and a live output-size readout. Explain that compression runs on the device. Offer quality presets plus a target-size control (1 MB, 500 KB, 200 KB) because autocomplete is full of those queries. How-to: add PDF, pick a target or preset, compress, download. Short section on how compression works (images and fonts, not magic). Use cases: email attachments, application portals, sharing over chat. FAQ: will quality drop; is it free; does the file get uploaded; how to hit 1 MB; scanned PDFs. Related: compress to 1 MB, merge, PDF to JPG, split. Be honest that already-flattened scans may not shrink much.
+Shared on-page pattern for every tool: unique title, meta, and H1; a working widget above the fold; a one-sentence privacy promise; 3 or 4 how-to steps; options or limits; 4 to 6 FAQs in visible HTML; a related-tools row; no invented testimonials, user counts, or accuracy percentages.
+Technical SEO checklist
+Status as of this brief, 26 Nov 2026 (Atlantic/Bermuda): the site is not built, so every item is still outstanding. Claude should implement these as part of the first build, not as a later cleanup.
+Core Web Vitals: LCP from a lightweight hero and heading, not from the PDF engine. Lazy-load pdf-lib, pdf.js, or WASM after first paint. Code-split per tool. Avoid layout shift in the uploader. Keep INP snappy on large files with web workers.
+Mobile-first layout and usable tool UI on iPhone and Android browsers, including file pickers and signature drawing. Many long-tail queries are device-specific.
+Render indexable HTML for titles, H1, how-to, FAQ, and internal links. Use static generation or SSR for page chrome and content. The PDF engine itself can be client-only.
+XML sitemap at /sitemap.xml covering homepage, /tools, every tool page, and every published guide. Submit it in Google Search Console and Bing Webmaster Tools on launch day.
+robots.txt allowing those URLs, blocking only true utility paths (preview blobs, internal APIs). Do not block CSS or JS that Google needs to render the page.
+Self-referencing canonical on every indexable page. HTTPS only, trailing-slash rule chosen and redirected consistently, one host (www or apex, not both).
+Schema: Organization and WebSite on the homepage; SoftwareApplication on the homepage and each tool; HowTo for the visible steps; FAQPage only for FAQs actually on the page; BreadcrumbList on tools and guides. Keep JSON-LD in sync with visible text.
+Internal links: homepage and /tools to all tools; each tool to 3 to 5 related tools; guides link in the body to the live tool, not only in a banner; breadcrumbs Home > Tools > Tool name.
+hreflang reserved for a later language launch. Do not add hreflang until translated pages exist. Use /{lang}/slug when they do, with a self, peer, and x-default set.
+Google Search Console and Bing Webmaster Tools verified, sitemap submitted, and domain property preferred in GSC. Set a US-English target, but expect global traffic on these queries.
+Analytics that fits a privacy brand: if you use GA4, load it with consent. A first-party or privacy-oriented analytics tool is a better match. No third-party ad trackers on tool pages if the promise is that files and behavior stay private.
+Performance budget: tool pages should still be useful on a mid-range phone. Compress and cache the engine. Offer a clear error when a file is too large for the browser tab.
+Security and trust pages: /security should accurately describe in-browser processing. Do not copy competitors' "deleted in two hours" language if the file never arrived. /privacy and /terms must match the architecture. Unlock-PDF copy must require the user's own password.
+Accessible forms and uploader (labels, keyboard, focus). Descriptive button names such as Compress PDF, not Submit.
+Open Graph and Twitter titles that match the SEO title closely, plus a simple share image per tool or one high-quality default.
+Content plan
+Guides should answer a job and link to the live tool. Do not publish ten thin rewrites of \"what is a PDF.\" Start with the clusters that already show long-tail demand.
+
+| Guide topic                                                                            | Supports                 | Angle                                                                                                   |
+| -------------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------- |
+| How to compress a PDF to 1 MB (and what to do if it will not go that small)            | Compress cluster         | Target-size walkthrough, with the tool embedded or linked                                               |
+| How to compress a PDF for email attachments                                            | Compress                 | Common mailbox caps, then the tool                                                                      |
+| How to compress a PDF on iPhone or Android                                             | Compress and mobile      | Browser how-to; do not pretend to be a native app unless you ship one                                   |
+| Free ways to merge PDFs without an account                                             | Merge                    | Contrast daily caps and sign-in walls, then the no-upload option                                        |
+| How to merge PDFs on iPhone                                                            | Merge                    | Device-specific, high autocomplete interest                                                             |
+| How to convert a PDF to Word without signing up                                        | PDF to Word              | Matches rising "no sign up" queries; be honest about layout limits                                      |
+| How to convert a scanned PDF into editable text                                        | OCR and PDF to Word      | Publish when OCR quality is real; otherwise wait                                                        |
+| How to sign a PDF on iPhone or Android for free                                        | Sign                     | Draw-to-sign walkthrough                                                                                |
+| How to password-protect a PDF, and how to unlock one you already know the password to  | Protect and unlock       | Two intents, clearly separated, no cracking advice                                                      |
+| Does this PDF tool upload my file? How to check.                                       | Positioning              | Teach the Network-tab or airplane-mode test; this is link-worthy if the product passes                  |
+| Job-application PDFs: resume file-size limits and how to shrink without wrecking fonts | Compress and Word to PDF | Use-case page with practical caps, not invented statistics                                              |
+| PDF to JPG on iPhone, and back again                                                   | Image cluster            | Two-way guide linking both tools                                                                        |
+| Best free PDF tools that do not require an account (and which ones upload your file)   | Launch and links         | Publish only as a fair, sourced comparison; never a fake roundup that buries rivals with made-up scores |
+
+Launch and link building
+Rankings on these terms follow links and unique product usefulness more than on-page copy. Nothing below should be posted until the user approves the exact text and destination. Prefer places where a no-upload, no-account toolkit is genuinely news.
+1
+Ship a live, fast product before any outreach
+Product Hunt and most directories want a working site, not a waitlist. The first 5 tools should be polished, the privacy claim should be demonstrably true (no file POST in the Network tab), and /security, /privacy, and /terms should be accurate.
+2
+Launch on Product Hunt
+Have the product live. Prepare a short tagline, a clear first comment that explains the in-browser difference and asks for feedback, gallery screenshots of 2 or 3 tools, and a 240 px thumbnail. Recent launch guides (for example https://spreadcast.app/blog/how-to-launch-on-product-hunt) recommend a personal hunter account that is not brand-new and a midnight Pacific launch window; treat that as community advice, not a guarantee. Do not buy votes or arrange reciprocal voting rings.
+3
+List on AlternativeTo and similar directories
+Submit as an alternative to iLovePDF, Smallpdf, and PDF24, with a factual description of in-browser processing. AlternativeTo's FAQ is at https://alternativeto.net/faq/. Add other relevant directories only when the listing is accurate (free vs freemium).
+4
+Show HN and privacy or productivity communities, with restraint
+A Show HN post is fitting if the architecture is real and the write-up is technical, not marketing fluff. On Reddit and similar forums, read the current subreddit rules before posting. Communities that sometimes welcome a genuinely useful free tool include privacy, productivity, and internet-is-beautiful type subs; many large subs ban self-promotion outright. Do not astroturf, do not post the same link everywhere, and do not use a brand-new account as a billboard. Open-sourcing the client would make an r/opensource or GitHub audience more receptive.
+5
+Answer real questions on Quora, Reddit, and forums
+Target questions such as how to compress a PDF to 1 MB, how to merge without an account, or whether iLovePDF uploads files. Answer the question first. Link once, when it actually helps. The same applies to device-specific how-tos (iPhone sign or merge).
+6
+Pitch fair listicles and comparison authors
+Several 2026 "best free PDF tools" roundups already compare free-tier limits and, in some cases, uploads (examples: https://trencada.com/pdf-tools-benchmark-2026/, https://comparetools.io/best-free-online-pdf-tools/, https://startupperks.co/best/free-pdf-editors, https://www.actuallyusefulextensions.com/blog/smallpdf-vs-ilovepdf-vs-convert-anything-to-pdf/). A short, factual note that a no-upload free toolkit now exists is a legitimate pitch. Do not pay for fake reviews or guaranteed placements.
+7
+Build a small, truthful comparison and security page that others can cite
+A sourced page on who uploads, who caps free use, and how to verify in-browser processing can attract links if it stays accurate and dated. Update it when vendors change plans.
+8
+Later, not week one
+Browser extension, Product Hunt ship updates, guest posts, campus or job-seeker communities, and language versions. International search demand for these tools is larger than US demand on the volume reports, but the first site should be excellent in English before translating.
+Realistic expectations
+No rankings or dates are promised
+This brief does not include a timeline to page one, a promised traffic number, or a claim that long-tail pages will rank. Those would be invented. Head terms such as merge pdf, compress pdf, and pdf to word are held by long-standing domains with strong brands and backlink profiles. A new site usually wins first, if it wins, on distinctive pages (no upload, no sign-up, compress to 1 MB) and on links from launch coverage, not by slightly rewriting the same title tags the incumbents already use.
+SEO results depend on the domain you register, existing history or penalties, technical quality, unique usefulness, and links. A better on-page brief cannot overcome a weak product or zero links.
+PDF to Word, PDF to Excel, and OCR will not take share on claims alone. If conversion quality is poor, users bounce, and that hurts the whole domain.
+In-browser processing has real limits (very large files, some conversion fidelity, heavy OCR). State them. Offer a clearly labeled path only if you later add a server option, and never silently upload after promising the opposite.
+Re-check every competitor limit and every title character count before pages go live. Vendors change free tiers often.
+Pick a name that can be trademark-cleared and that is not a typo of iLovePDF or Smallpdf. This brief leaves naming to the user.
+Instructions for Claude
+Copy everything in the block below into the build brief for Claude. Replace [Brand] when a name and domain are chosen.
+Instructions for Claude: build the first version of a free online PDF toolkit with SEO baked in.
+
+Product position
+- Name and domain are still TBD. Use [Brand] in visible copy and do not hard-code a fake brand in URLs.
+- Promise: free PDF tools that run in the browser. Files never leave the user's device. No account, no daily or hourly task cap, no watermark.
+- Prove the promise: processing must happen client-side (for example pdf-lib, pdf.js, or WASM). After the page loads, a file operation must not POST the PDF to a server. Document this on /security and tell the user how to verify (Network tab or airplane mode after load).
+- Do not invent user counts, accuracy rates, testimonials, awards, or "trusted by millions" lines.
+- Do not copy iLovePDF, Smallpdf, or Adobe wording. Especially do not reuse claims like "almost 100% accurate."
+- Unlock PDF may only remove a password the user supplies. Do not market password cracking.
+- If a tool cannot yet meet a quality bar (PDF to Word, PDF to Excel, OCR), ship a useful limited v1 and say the limits in plain language on the page. Prefer delaying OCR rather than shipping a misleading converter.
+
+Architecture and URLs
+- English site at the domain root. Kebab-case slugs, no .html, no underscores.
+- Required routes: /, /tools, /compress-pdf, /compress-pdf-to-1mb, /merge-pdf, /split-pdf, /organize-pdf, /pdf-to-word, /word-to-pdf, /pdf-to-jpg, /jpg-to-pdf, /pdf-to-excel, /sign-pdf, /edit-pdf, /rotate-pdf, /unlock-pdf, /protect-pdf, /blog, /privacy, /terms, /security, /about.
+- Reserve but do not publish empty shells for: /ocr-pdf, /watermark-pdf, /page-numbers, /pdf-to-png, /excel-to-pdf, /ppt-to-pdf, /pdf-to-ppt, /compress-pdf-for-email, /heic-to-pdf, /redact-pdf.
+- Homepage: positioning sentence, trust points, and a grid of tools. /tools: complete directory grouped by job.
+- Each tool page: unique <title>, meta description, and H1 (use the specs in the SEO brief). Widget above the fold. Then: privacy one-liner, 3-4 how-to steps, options and honest limits, 4-6 FAQs in HTML, related tools. Visible text must be in the HTML (SSR or static generation for chrome and content). The PDF engine can be client-only and should be lazy-loaded after first paint.
+
+SEO and technical requirements
+- Mobile-first, accessible uploader and buttons ("Compress PDF", not "Submit").
+- Core Web Vitals: do not let the WASM or library block LCP. Use a web worker for heavy work. Set a real client-side file-size ceiling and a clear error.
+- /sitemap.xml for all indexable URLs. /robots.txt allowing public pages and the assets Google needs to render them.
+- Canonical tags, HTTPS, a single host, a single trailing-slash policy with redirects.
+- JSON-LD: Organization + WebSite on home; SoftwareApplication on home and tools; HowTo for the steps; FAQPage only for FAQs present on the page; BreadcrumbList. Keep schema aligned with visible copy.
+- Internal links: home and /tools to every tool; each tool to 3-5 related tools; breadcrumbs Home > Tools > [Tool].
+- Open Graph tags. No hreflang until real translations exist; when they do, use /{lang}/slug.
+- Prepare Google Search Console and Bing Webmaster Tools verification (DNS or file). Add privacy-respecting analytics; if GA4 is used, it must be consent-gated. No ad or retargeting pixels on tool pages.
+- /security, /privacy, and /terms must describe in-browser processing accurately. Do not say "we delete your file in two hours" if the file never arrived.
+
+Copy rules for titles (already counted; keep under 60 characters) and metas (under 155):
+- /compress-pdf | title: Compress PDF Online Free - Files Stay on Your Device | H1: Compress PDF
+meta: Compress a PDF in your browser. No upload, no account, and no daily limit. Shrink files for email, forms, and job applications, then download instantly.
+- /merge-pdf | title: Merge PDF Files Free - Combine PDFs in Your Browser | H1: Merge PDF files
+meta: Merge PDF files on your device. Drag to reorder, combine as many as you need, and download one PDF. No upload, no account, and no watermark.
+- /pdf-to-word | title: PDF to Word Converter Free - No Sign-Up Required | H1: Convert PDF to Word
+meta: Convert a PDF to an editable Word file. Free, with no account. Say clearly whether conversion runs on your device or, for complex layouts, on a server.
+- /split-pdf | title: Split PDF Online Free - Extract Pages on Your Device | H1: Split PDF
+meta: Split a PDF into separate files or extract the pages you need. Choose page ranges or every page. No upload and no account.
+- /word-to-pdf | title: Word to PDF Converter Free - Private and Instant | H1: Convert Word to PDF
+meta: Turn DOC or DOCX into a PDF in your browser when possible. No account and no watermark. Keep fonts and page size intact, and state any format limits.
+- /pdf-to-jpg | title: PDF to JPG Converter Free - Every Page as an Image | H1: Convert PDF to JPG
+meta: Turn PDF pages into JPG images in your browser. Choose a page or the whole file, pick a resolution, and download a zip. No upload required.
+- /jpg-to-pdf | title: JPG to PDF Converter Free - Images Stay on Your Device | H1: Convert JPG to PDF
+meta: Convert JPG, PNG, and WebP images into a single PDF. Reorder pages, set page size and margins, and download. No account and no upload.
+- /sign-pdf | title: Sign PDF Online Free - Draw or Type on Your Device | H1: Sign a PDF
+meta: Sign a PDF in your browser. Draw, type, or place an image signature, then download. No account and no file upload. Not a legally certified e-sign platform.
+- /rotate-pdf | title: Rotate PDF Pages Free - Fix Direction in Your Browser | H1: Rotate PDF pages
+meta: Rotate one page or a whole PDF, then save a new file. Runs on your device, with no account and no upload.
+- /unlock-pdf | title: Unlock PDF Free - Remove a Password You Already Know | H1: Unlock PDF
+meta: Remove a PDF password on your device when you already know it. No upload and no account. We only unlock files you are allowed to open.
+- /protect-pdf | title: Protect PDF with a Password - Encrypt in Your Browser | H1: Protect PDF
+meta: Add a password to a PDF on your device. Restrict opening or editing, then download the encrypted file. No upload and no account.
+- /edit-pdf | title: Edit PDF Online Free - No Sign-Up, Files Stay Here | H1: Edit PDF
+meta: Add text, highlights, shapes, and images to a PDF in your browser. No account. Be clear about whether existing text can be rewritten or only overlaid.
+- /pdf-to-excel | title: PDF to Excel Converter Free - Extract Tables | H1: Convert PDF to Excel
+meta: Pull tables from a PDF into Excel or CSV. Explain accuracy limits, especially on scans and messy layouts. No account required to try it.
+- /compress-pdf-to-1mb | title: Compress PDF to 1 MB Free - Hit a Size Limit | H1: Compress a PDF to 1 MB
+meta: Shrink a PDF to 1 MB or another target size in your browser. Built for email caps and upload forms. No account and no file upload.
+- /organize-pdf | title: Organize PDF Pages Free - Reorder, Delete, Rotate | H1: Organize PDF pages
+meta: Reorder, delete, and rotate PDF pages in your browser. Download a cleaned file. No upload, no account, and no page-count paywall.
+
+Product features to prioritize in the widget
+- Compress: presets plus a target-size control (1 MB, 500 KB, 200 KB). Show resulting size before download.
+- Merge: multi-file, drag to reorder.
+- Split: range, every page, or every N pages.
+- Sign: draw, type, or image; self-sign only in v1; do not claim certified e-sign legal status.
+- Edit v1 may be overlays (text, highlight, ink, image, whiteout) if true text editing is not ready; say so.
+- JPG to PDF should accept PNG and WebP as well.
+- Organize combines reorder, delete, and rotate so we do not launch three thin pages.
+
+Build order
+1) App shell, homepage, /tools, /security, /privacy, /terms, sitemap, robots, analytics hook, schema helpers.
+2) Compress, Merge, Split, Rotate, Organize, Protect, Unlock, JPG to PDF, PDF to JPG (strong in-browser fits).
+3) Sign, Edit (overlay v1), Word to PDF, Compress to 1 MB.
+4) PDF to Word and PDF to Excel with honest quality limits.
+5) Blog templates and the first two guides: compress to 1 MB, and "does this tool upload my file?"
+
+Out of scope for v1 unless quality is clearly ready: OCR, batch server workflows, accounts, ads, watermarked outputs, paid paywalls on core tools.
+Copy
+Sources
+iLovePDF home, pricing, and security
+ilovepdf.com
+Smallpdf tools, support, and compress page
+smallpdf.com
+PDF24 Tools FAQ
+tools.pdf24.org
+Sejda pricing
+sejda.com
+PDF Candy help
+pdfcandy.com
+Adobe Acrobat online services FAQ
+helpx.adobe.com
+TinyWow privacy policy
+tinywow.com
+Stirling PDF project
+GitHub
+KWS Trends: pdf to word (US)
+kwstrends.com
+KWS Trends: merge pdf (US)
+kwstrends.com
+KWS Trends: compress pdf (US)
+kwstrends.com
+KWS Trends: split pdf (US)
+kwstrends.com
+KWS Trends: sign pdf (US)
+kwstrends.com
+2026 free-tier benchmark of nine PDF platforms
+trencada.com
+In-browser PDF tools that do not upload
+imisspdf.com

@@ -1,0 +1,199 @@
+PDF tools market gaps
+Twelve PDF-tool gaps and two adjacent ones, ranked from free search and complaint signals only. No paid keyword tool was used, and no search volume here is a counted total.
+On this page
+The short version
+How this was researched
+Limits of this research
+Snapshot
+Build these three first
+Size, email, and uploads
+Forms, signatures, and paperwork
+Conversion and extraction
+Privacy and safety
+Adjacent and later ideas
+What not to chase first
+Sources
+The short version
+Do not start as a generic iLovePDF clone.
+Head terms such as merge PDF and PDF converter are already owned by Adobe, iLovePDF, and Smallpdf. The opening is a site that runs in the browser, asks for no account, and is clearly better at three jobs people already type into Google: hit a exact upload size, fill and sign a form on a phone, and turn iPhone photos into one PDF.
+Research was done on 26 November 2026, Atlantic/Bermuda time, for a US-based free web-tools site. Claude can build the product; this Page is the market brief.
+How this was researched
+There was no access to Ahrefs, Semrush, or Google Keyword Planner. Every claim below is tied to a free signal that was actually opened or fetched, not to an invented monthly volume.
+1.
+Google Autocomplete
+a.
+Fetched on 26 November 2026 from https://suggestqueries.google.com/complete/search?client=firefox&q=… for seed phrases such as compress pdf to, convert pdf to, free pdf without sign up, pdf iphone, sign pdf free, fill pdf form, and heic to pdf. A suggestion means Google has seen that completion often enough to offer it. It is not a volume number.
+2.
+Third-party trend reports
+a.
+KWS Trends pages for pdf converter, merge pdf, and sign pdf, which mix Google Trends interest with estimated volumes (they say Semrush averages). Official Google Trends widgets failed to load here (401 or JavaScript errors), so those relative-interest charts are not quoted as if they were opened.
+3.
+Demand and frustration
+a.
+Reddit threads, G2 reviews, and Adobe and USAJOBS help pages. Reddit often blocked a full-page fetch, so some threads are cited from search-result snippets plus the thread URL. Quotes are short and attributed.
+4.
+Supply weakness
+a.
+Web searches for the candidate queries, plus incumbent pages (iLovePDF pricing, iLovePDF's own 'compress to a specific size' blog, Adobe's Fill and Sign retirement note). A weak result is one that is generic, paywalled, upload-only, or does not actually let the user set the size or finish the task.
+Limits of this research
+No absolute search volumes. Where a third-party estimate appears, it is labeled as an estimate and used only to compare scale, not as a counted total.
+KWS Trends rising-search lists are noisy. For pdf converter they also include what is a catalytic converter and WhatsApp Web, so only clearly PDF-related rising terms are used.
+Autocomplete and related searches show intent, not how hard the ranking will be or how many clicks a page would get.
+In 2025 and 2026, many new client-side tools already target some of these exact phrases (compress to 100KB, split by size, no-upload editors). The gap is often 'do it better and get found,' not 'nobody built this.'
+Incumbents already offer several of these features (iLovePDF has HEIC-to-PDF, OCR, Compare, and Redact). The opening is usually privacy, no account, no daily cap, a better workflow, or a tighter landing page, not a missing menu item.
+Client-side tools have real limits: large scans can hit browser memory, and very hard jobs (perfect Word conversion, bank-statement tables, layout-true translation) may still need a server or paid APIs later.
+This is a snapshot as of 26 November 2026. Re-check live subreddit and tool rules, and live SERPs, before writing public pages.
+Snapshot
+All gaps
+Size and email
+Forms and sign
+Convert
+Privacy and safety
+Adjacent
+
+| Gap                                        | Confidence | Build  | Fit                    |
+| ------------------------------------------ | ---------- | ------ | ---------------------- |
+| Compress to a target size                  | High       | Medium | Core launch tool       |
+| Split or shrink for email                  | High       | Low    | Pairs with compressor  |
+| Compress scans, keep them readable         | Med        | Medium | Same tool, better mode |
+| Fill and sign on a phone, no Adobe account | High       | Medium | Core, US-heavy         |
+| Make any PDF fillable                      | Med        | Medium | Natural next tool      |
+| Flatten a filled form for a portal         | Med        | Low    | Small add-on           |
+| PDF to Word, keep formatting, no signup    | High       | High   | Core, hard to nail     |
+| iPhone HEIC photos to one PDF              | High       | Low    | Easy launch wedge      |
+| PDF tables or statements to Excel          | Med        | High   | Later, privacy-led     |
+| Translate a PDF and keep the layout        | Med        | High   | Later, costs money     |
+| Real redaction, not a black box            | Med        | Medium | Trust feature          |
+| Process files in the browser, no upload    | High       | Medium | Site-wide angle        |
+| Compare two PDFs side by side              | Med        | Medium | Nice later tool        |
+| HEIC to JPG, bulk, no account              | Med        | Low    | Non-PDF traffic        |
+
+Confidence and build difficulty are researcher judgments from the signals below, not search volumes. Filter the table; the matrix always shows every gap.
+Weaker evidence
+Stronger evidence →
+Build first
+Worth it if quality is real
+Easy later add-ons
+Wait
+Target size
+Email split
+Readable scans
+Fill and sign
+Make fillable
+Flatten
+PDF to Word
+HEIC to PDF
+Tables to Excel
+Translate layout
+True redaction
+No-upload default
+Compare PDFs
+HEIC to JPG
+Easier to build
+Harder to build →
+The upper-left cluster is the launch plan: target-size compression, email splitting, HEIC-to-PDF, and a no-upload fill-and-sign flow. PDF-to-Word sits high on evidence but is harder to do well. Translation and bank-grade table extraction can wait.
+Build these three first
+1.
+A compressor that aims at a size, not a quality preset
+a.
+Ship one page per common cap (100KB, 200KB, 300KB, 500KB, 1MB, 2MB, 5MB) plus presets for job portals, visas, and email. Show the resulting size and a readability preview, and say honestly when a file cannot fit. Process in the browser so IDs and applications never leave the device.
+2.
+Fill and sign on a phone, with no Adobe account
+a.
+Adobe retired the standalone Fill and Sign app and pointed people at Acrobat Reader. Autocomplete is full of free, no-signup signing and filling. A clean mobile web tool that fills official PDFs, adds a signature, and flattens the file for upload is a strong number two.
+3.
+Turn iPhone HEIC photos into one PDF
+a.
+heic to pdf and heic to pdf converter are among the rising related searches on the US pdf converter report, and autocomplete also shows combine heic to pdf and photo to pdf iphone. iLovePDF already converts photos, including HEIC, so win on a dedicated workflow: several photos, chosen order, no upload, no quality surprise.
+The cross-cutting rule for all three: no account, no daily task cap on the core job, and files stay on the device whenever the browser can handle them. That is the brand, not a fourth product.
+Size, email, and uploads
+1. Compress to a target size
+Need
+Get a PDF under a stated cap: 100KB, 200KB, 300KB, 500KB, 1MB, 2MB, or 5MB, and still be able to read it.
+Build
+Medium. Client-side compression with a target, a preview, and a fallback to drop pages or split the file.
+Fit
+The first tool on the site, with one URL per cap and a shared engine.
+Confidence
+High. Autocomplete, incumbent docs, and real upload-failure stories all point the same way.
+Google Autocomplete for compress pdf to, fetched 26 November 2026, offered 1mb free, 1mb, 5mb, 200kb, 100kb, 10 mb free, 500kb, and 10mb. For compress pdf under it offered 1 mb, 2mb, 5mb, 10 mb, 500kb, 200kb, 100kb, 300kb, and 150kb. For compress pdf to 100kb it added free, online, without losing quality, and free offline.
+You've filled in the application, attached your documents, and hit upload. Then the portal stops you: "File must be under 300KB."
+iLovePDF blog, 30 October 2026, https://www.ilovepdf.com/blog/compress-pdf-to-specific-size
+That same iLovePDF post says the Compress tool only has three levels (Extreme, Recommended, Less), that no tool can promise an exact output size, and that users should compress, download, and check the size themselves. USAJOBS help says a resume must be 5MB or less and recommends PDF: https://usajobshelp.opm.gov/hc/en-us/articles/52879511643411-How-to-add-a-resume-to-your-profile. In r/techsupport, a June 2026 thread describes portals rejecting files over 1MB or 2MB and a painful loop of leaving the application, uploading a sensitive file to a random compressor, and hoping it works: https://www.reddit.com/r/techsupport/comments/1ug7teb/pdf_too_large_for_an_online_application_what/
+Supply is filling in. A search for compress pdf to 100kb already surfaces newer target-size tools. The opening is not a unique invention. It is a more honest, readable, private tool with a page for each cap, plus US portal presets, before those long-tail pages are fully locked up.
+2. Split or shrink a PDF for email
+3. Compress a scanned PDF without wrecking it
+Forms, signatures, and paperwork
+4. Fill and sign on a phone, no Adobe account
+Need
+Fill a form, add a signature, and send it from an iPhone or Android phone without Adobe, DocuSign, or a new account.
+Build
+Medium. AcroForm filling, a drawn or uploaded signature, dates and checkmarks, then flatten for upload. XFA or locked government forms are harder.
+Fit
+Core US tool, next to the compressor. People often need both on the same application packet.
+Confidence
+High. Official product change, dense autocomplete, and forum complaints line up.
+Autocomplete for how to sign a pdf included on iphone, for free, on android, without adobe, and on my phone. sign pdf free included online, no sign up, online no sign up, reddit, no account, and iphone. fill pdf form included online free, free, and with excel data. pdf form filler included free no sign up.
+Adobe's help page, last updated 27 March 2025, says the standalone Fill and Sign app has been retired and no longer receives updates or support, and that people should switch to Acrobat Reader Mobile: https://helpx.adobe.com/acrobat/migrating-from-fill-and-sign.html. In r/pdf, a user wrote that iOS Adobe Sign and Fill was gone and that the regular Adobe app kept saying PDFs were read-only: https://www.reddit.com/r/pdf/comments/1j8m7x1/ios_adobe_sign_and_fill_gone_any_free_alternatives/. KWS Trends estimates US searches for sign pdf rose 93% versus the prior 12 months, with an estimated 15,000 average monthly searches. That figure is an estimate, not a counted total: https://www.kwstrends.com/keywords/us/sign-pdf
+iPhone Markup can already sign a PDF, and Acrobat Reader is the official replacement, so this is not an empty market. The opening is a browser tool that works when the Adobe app calls a file read-only, does not force an account, and can flatten the result so a portal actually shows the filled text and signature. Do not host official IRS forms as if they were yours; make the filler work well on a W-9 or other government PDF the user already has.
+5. Make any PDF fillable
+6. Flatten a filled form for a portal
+Conversion and extraction
+7. PDF to Word that keeps formatting, with no signup
+8. iPhone HEIC photos to one PDF
+Need
+Convert one or many iPhone photos (HEIC) into a single PDF, in a chosen order, without a quality drop or an app install.
+Build
+Low for a client-side image-to-PDF tool that also accepts HEIC and JPEG.
+Fit
+A launch wedge and a natural companion to compress and merge. Also supports webp to pdf, which autocomplete already ties to iLovePDF.
+Confidence
+High for demand and for a dedicated landing page. Medium as a unique feature, because iLovePDF already documents HEIC-to-PDF.
+Autocomplete for heic to pdf included converter, free, ilovepdf, combiner, merge, and on mac. combine heic to pdf included free, merge, combine heic to one pdf, and combine multiple heic to pdf. photo to pdf iphone and images to one pdf were also fully suggested, including without losing quality.
+On the same KWS Trends US pdf converter report, heic to pdf is listed as a rising related search at +450%, and heic to pdf converter at +400%. iLovePDF already explains how to convert HEIC to PDF with its image tool: https://www.ilovepdf.com/blog/how-to-convert-heic-to-pdf. Apple's Files and Print-to-PDF tricks also exist, but people still search for a converter. Win on a page that matches the query, keeps EXIF and page order obvious, processes locally, and then offers compress-to-size in one step for the portal that will reject the result.
+9. PDF tables or bank statements to Excel
+10. Translate a PDF and keep the layout
+Privacy and safety
+11. Real redaction, not a black box
+12. Process files in the browser, no upload
+Adjacent and later ideas
+13. Compare two PDFs side by side
+14. HEIC to JPG, bulk, no account (non-PDF)
+What not to chase first
+Head terms such as merge pdf, pdf converter, and edit pdf. They have demand, but the top results are Adobe, iLovePDF, Smallpdf, and similar. Use them as supporting pages once the long-tail tools work.
+Unlock PDF without the password, or remove someone else's watermark. Those queries exist in autocomplete, but they invite abuse. Offer password-protect, and remove a password only when the user supplies it.
+Hosting official IRS or other government forms as if they were your product. Help people fill the file they already downloaded.
+Spammy generated pages or fake backlinks. That can get the whole site pushed down or removed.
+Claiming legal e-sign equivalence with DocuSign or Adobe Sign unless a lawyer has reviewed the product. 'Add a signature image' is not the same thing.
+Sources
+Primary pages and threads opened or searched for this brief. Third-party volumes on KWS Trends are estimates. Autocomplete was fetched directly on 26 November 2026.
+iLovePDF: compress to a specific size
+ilovepdf.com · 30 Oct 2026
+iLovePDF pricing
+ilovepdf.com
+iLovePDF HEIC to PDF guide
+ilovepdf.com
+KWS Trends: pdf converter (US)
+kwstrends.com · 28 Oct 2026
+KWS Trends: merge pdf (US)
+kwstrends.com
+KWS Trends: sign pdf (US)
+kwstrends.com · 15 Nov 2026
+Adobe retires Fill and Sign
+helpx.adobe.com · 27 Mar 2025
+USAJOBS resume file rules
+usajobshelp.opm.gov
+USA Staffing upload limits
+appsupport.usastaffing.gov
+iLovePDF reviews, pros and cons
+g2.com
+PDF too large for an online application
+reddit.com · 26 Jun 2026
+iOS Adobe Fill and Sign gone
+reddit.com
+Smallpdf auto-renewal complaints
+reddit.com · 4 Sep 2025
+Stop uploading private files to free compressors
+reddit.com
+Client-side PDF tools trend note
+trendintel.io
