@@ -2,10 +2,20 @@
 (function () {
   'use strict';
   const C = JSON.parse(document.getElementById('site').textContent);
-  const L = window.PDFLib, pj = window.pdfjsLib;
-  if (pj) pj.GlobalWorkerOptions.workerSrc = C.worker;
+  class Friendly extends Error {}
+  // The PDF engine is loaded after the page has appeared, so the page itself shows fast.
+  let L, pj, loading;
+  const script = src => new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src; s.onload = res;
+    s.onerror = () => rej(new Friendly('The PDF engine could not load. Check your connection and reload the page.'));
+    document.head.append(s);
+  });
+  function engine() {
+    return loading || (loading = Promise.all([script(C.libs.pdflib), script(C.libs.pdfjs), script(C.libs.zip)]).then(() => {
+      L = window.PDFLib; pj = window.pdfjsLib; pj.GlobalWorkerOptions.workerSrc = C.libs.worker;
+    }).catch(e => { loading = null; throw e; }));
+  }
 
-  /* ---------- small helpers ---------- */
   const h = (tag, props, ...kids) => {
     const e = document.createElement(tag);
     for (const k in props || {}) {
@@ -19,7 +29,6 @@
     for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
     return e;
   };
-  class Friendly extends Error {}
   const stem = f => f.name.replace(/\.[^.]+$/, '');
   const size = n => n < 1048576 ? Math.max(1, Math.round(n / 1024)) + ' KB' : (n / 1048576).toFixed(n < 10485760 ? 2 : 1) + ' MB';
   const toBlob = (c, type, q) => new Promise(r => c.toBlob(r, type, q));
@@ -28,7 +37,7 @@
   async function lib(f, opts) {
     try { return await L.PDFDocument.load(await f.arrayBuffer(), opts || {}); }
     catch (e) {
-      if (/encrypt/i.test(e.message)) throw new Friendly(`"${f.name}" is password protected. Remove the password first, then try again.`);
+      if (/encrypt/i.test(e.message)) throw new Friendly(`"${f.name}" is password protected. Remove the password with Unlock PDF first, then try again.`);
       throw new Friendly(`"${f.name}" could not be read. It may be damaged. Try Repair PDF.`);
     }
   }
@@ -96,7 +105,7 @@
 
   /* ---------- page viewer used by Sign and Redact ---------- */
   function pager(pdf, onShow) {
-    let n = 1, busy = false, again = false;
+    let n = 1, busy = false, again = false, pw = 595;
     const cv = h('canvas'), ov = h('div', { class: 'pg-ov' }), wrap = h('div', { class: 'pg-wrap' }, cv, ov);
     const label = h('span', { class: 'pg-label' });
     const go = d => { const m = Math.min(pdf.numPages, Math.max(1, n + d)); if (m !== n) { n = m; show(); } };
@@ -110,11 +119,42 @@
       const cssW = Math.min(wrap.clientWidth || 600, 760);
       const d = await draw(pdf, n, { width: Math.min(2200, cssW * (window.devicePixelRatio || 1)) });
       cv.width = d.canvas.width; cv.height = d.canvas.height; cv.getContext('2d').drawImage(d.canvas, 0, 0);
-      label.textContent = `Page ${n} of ${pdf.numPages}`;
+      pw = d.w; label.textContent = `Page ${n} of ${pdf.numPages}`;
       ov.replaceChildren(); onShow(n, ov);
       busy = false; if (again) { again = false; show(); }
     }
-    return { el, ov, show, get n() { return n; } };
+    return { el, ov, show, get n() { return n; }, get pw() { return pw; } };
+  }
+
+  /* ---------- signature pad used by Sign and Fill & Sign ---------- */
+  function sigPad(onChange) {
+    const pad = h('canvas', { class: 'pad', width: 640, height: 240, 'aria-label': 'Draw your signature here' }), ctx = pad.getContext('2d');
+    ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#10182a';
+    let down = false, sig = null;
+    const pt = e => { const r = pad.getBoundingClientRect(); return [(e.clientX - r.left) * pad.width / r.width, (e.clientY - r.top) * pad.height / r.height]; };
+    const trim = () => {
+      const d = ctx.getImageData(0, 0, pad.width, pad.height).data; let x0 = pad.width, y0 = pad.height, x1 = -1, y1 = -1;
+      for (let y = 0; y < pad.height; y++) for (let x = 0; x < pad.width; x++) if (d[(y * pad.width + x) * 4 + 3] > 10) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0) { sig = null; return; }
+      const c = document.createElement('canvas'); c.width = x1 - x0 + 9; c.height = y1 - y0 + 9;
+      c.getContext('2d').drawImage(pad, x0 - 4, y0 - 4, c.width, c.height, 0, 0, c.width, c.height);
+      sig = { url: c.toDataURL('image/png'), ratio: c.height / c.width };
+    };
+    pad.addEventListener('pointerdown', e => { down = true; pad.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.moveTo(...pt(e)); ctx.lineTo(...pt(e)); ctx.stroke(); e.preventDefault(); });
+    pad.addEventListener('pointermove', e => { if (down) { ctx.lineTo(...pt(e)); ctx.stroke(); } });
+    const up = () => { if (down) { down = false; trim(); onChange(); } };
+    pad.addEventListener('pointerup', up); pad.addEventListener('pointercancel', up);
+    const el = h('div', { class: 'opts' }, pad, h('div', {}, h('button', { type: 'button', class: 'btn sm', text: 'Clear signature', onclick: () => { ctx.clearRect(0, 0, pad.width, pad.height); sig = null; onChange(); } })));
+    return { el, get sig() { return sig; } };
+  }
+  // Opens any image the browser knows. iPhone HEIC photos are converted first where the browser cannot read them.
+  async function bitmap(f) {
+    try { return await createImageBitmap(f, { imageOrientation: 'from-image' }); }
+    catch (e) {
+      if (!/hei[cf]/i.test(f.type + f.name)) throw e;
+      const { heicTo } = await import(C.libs.heic).catch(() => { throw new Friendly('The iPhone photo converter could not load. Check your connection and try again.'); });
+      return createImageBitmap(await heicTo({ blob: f, type: 'image/jpeg', quality: 0.92 }));
+    }
   }
 
   /* ---------- the tools ---------- */
@@ -127,13 +167,13 @@
       try {
         if (f.type === 'image/png') img = await out.embedPng(await f.arrayBuffer());
         else {
-          const bmp = await createImageBitmap(f, { imageOrientation: 'from-image' });
+          const bmp = await bitmap(f);
           const k = Math.min(1, 4000 / Math.max(bmp.width, bmp.height)), c = document.createElement('canvas');
           c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
           const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(bmp, 0, 0, c.width, c.height);
           img = await out.embedJpg(await (await toBlob(c, 'image/jpeg', 0.9)).arrayBuffer());
         }
-      } catch (e) { throw new Friendly(`"${f.name}" is not an image this browser can open.`); }
+      } catch (e) { if (e instanceof Friendly) throw e; throw new Friendly(`"${f.name}" is not an image this browser can open.`); }
       let pw, ph;
       if (o.size === 'fit') { const k = 842 / Math.max(img.width, img.height); pw = img.width * k + 2 * m; ph = img.height * k + 2 * m; }
       else {
@@ -235,16 +275,41 @@
     'jpg-to-pdf': { kind: 'img', many: true, min: 1, order: true, go: 'Convert to PDF', opts: imgOpts, run: imagesToPdf },
     'compress-pdf': {
       go: 'Compress PDF',
-      opts: [{
-        id: 'level', label: 'Compression', type: 'select', value: 'strong',
-        options: [['light', 'Light: keeps text selectable, small saving'], ['strong', 'Strong: much smaller, pages become images'], ['extreme', 'Extreme: smallest, lower quality images']],
-      }],
+      opts: [
+        { id: 'mode', label: 'How to compress', type: 'select', value: 'level', options: [['target', 'Get under a size limit'], ['level', 'Choose a quality level']] },
+        { id: 'target', label: 'Size limit', type: 'select', value: '1024', showIf: v => v.mode === 'target', hint: 'The tool keeps the best quality that fits under the limit.',
+          options: [['100', '100 KB'], ['200', '200 KB'], ['300', '300 KB'], ['500', '500 KB'], ['1024', '1 MB'], ['2048', '2 MB'], ['5120', '5 MB']] },
+        { id: 'level', label: 'Compression', type: 'select', value: 'strong', showIf: v => v.mode === 'level',
+          options: [['light', 'Light: keeps text selectable, small saving'], ['strong', 'Strong: much smaller, pages become images'], ['extreme', 'Extreme: smallest, lower quality images']] },
+      ],
       run: async ([f], o, p) => {
+        const done = (bytes, extra) => [Object.assign(pdfOut(`${stem(f)}-compressed.pdf`, bytes), { note: `${size(f.size)} down to ${size(bytes.length)}, ${Math.round((1 - bytes.length / f.size) * 100)}% smaller. ${extra}` })];
+        if (o.mode === 'target') {
+          const goal = +o.target * 1024, label = +o.target >= 1024 ? `${+o.target / 1024} MB` : `${o.target} KB`;
+          if (f.size <= goal) throw new Friendly(`This file is ${size(f.size)}, which is already under ${label}.`);
+          const light = await (await lib(f)).save({ useObjectStreams: true });
+          if (light.length <= goal) return done(light, 'Text is still selectable.');
+          const steps = [[150, 0.8], [130, 0.7], [110, 0.6], [96, 0.5], [80, 0.45], [66, 0.38], [54, 0.32], [44, 0.28], [36, 0.24]];
+          let i = 0, tries = 0, best = null, hit = null, jump = 1;
+          while (i < steps.length && tries < 6) {
+            const k = ++tries, bytes = await raster(f, steps[i][0], steps[i][1], t => p(`Attempt ${k}, ${t.toLowerCase()}`));
+            if (!best || bytes.length < best.length) best = bytes;
+            if (bytes.length <= goal) { hit = { bytes, i }; break; }
+            const r = goal / bytes.length; jump = r > 0.75 ? 1 : r > 0.45 ? 2 : r > 0.25 ? 3 : 4; i += jump;
+          }
+          if (!hit && i >= steps.length && tries < 7 && best.length > goal) { const bytes = await raster(f, 36, 0.24, t => p(`Last attempt, ${t.toLowerCase()}`)); if (bytes.length < best.length) best = bytes; if (bytes.length <= goal) hit = { bytes, i: steps.length - 1 }; }
+          if (!hit) throw new Friendly(`The smallest this file can get is about ${size(best.length)}, which is still over ${label}. Split it into parts with Split PDF, or remove pages you do not need.`);
+          if (jump > 1 && hit.bytes.length < goal * 0.7) { // we may have overshot: try one step better quality
+            const bytes = await raster(f, steps[hit.i - 1][0], steps[hit.i - 1][1], t => p(`Improving quality, ${t.toLowerCase()}`));
+            if (bytes.length <= goal) hit = { bytes, i: hit.i - 1 };
+          }
+          return done(hit.bytes, `Pages were redrawn as images at ${steps[hit.i][0]} dpi, so check that small text is still readable.`);
+        }
         let bytes;
         if (o.level === 'light') bytes = await (await lib(f)).save({ useObjectStreams: true });
         else bytes = await raster(f, o.level === 'strong' ? 120 : 80, o.level === 'strong' ? 0.6 : 0.45, p);
         if (bytes.length >= f.size) throw new Friendly(`This file is already compact: ${o.level} compression would not make it smaller.${o.level === 'extreme' ? '' : ' Try a stronger level.'}`);
-        return [Object.assign(pdfOut(`${stem(f)}-compressed.pdf`, bytes), { note: `${size(f.size)} down to ${size(bytes.length)}, ${Math.round((1 - bytes.length / f.size) * 100)}% smaller.` })];
+        return done(bytes, o.level === 'light' ? 'Text is still selectable.' : 'Pages are now images.');
       },
     },
     'repair-pdf': {
@@ -386,12 +451,13 @@
         return [pdfOut(`${stem(f)}-cropped.pdf`, await d.save())];
       },
     },
-    'pdf-forms': {
-      go: 'Save filled form',
-      opts: [{ id: 'flat', label: 'Lock the answers so they cannot be edited later', type: 'check' }],
+    'fill-and-sign-pdf': {
+      go: 'Save PDF',
+      opts: [{ id: 'flat', label: 'Lock the form answers so upload portals show them', type: 'check', value: true }],
       setup: async ([f], box) => {
-        const doc = await lib(f), rows = [];
+        const doc = await lib(f), pdf = await view(f), rows = [], st = { items: [], sel: null, mode: null, rows };
         let fields = []; try { fields = doc.getForm().getFields(); } catch (e) { /* no form */ }
+        const fbox = h('div', { class: 'opts' });
         fields.forEach((fd, k) => {
           const id = `fld-${k}`, name = fd.getName(); let el, kind;
           const sel = (opts, cur) => h('select', { id }, h('option', { value: '', text: '(nothing chosen)' }), opts.map(v => h('option', Object.assign({ value: v, text: v }, v === cur ? { selected: true } : {}))));
@@ -400,74 +466,136 @@
           else if (fd instanceof L.PDFDropdown || fd instanceof L.PDFOptionList) { kind = 'pick'; el = sel(fd.getOptions(), fd.getSelected()[0]); }
           else if (fd instanceof L.PDFRadioGroup) { kind = 'radio'; el = sel(fd.getOptions(), fd.getSelected()); }
           else return;
-          rows.push({ fd, el, kind });
-          box.append(kind === 'check' ? h('label', { class: 'field check', for: id }, el, h('span', { text: name })) : h('div', { class: 'field' }, h('label', { for: id, text: name }), el));
+          rows.push({ k, el, kind });
+          fbox.append(kind === 'check' ? h('label', { class: 'field check', for: id }, el, h('span', { text: name })) : h('div', { class: 'field' }, h('label', { for: id, text: name }), el));
         });
-        if (!rows.length) throw new Friendly('This PDF has no fillable fields. It may be a flat form, which needs the editor that is coming soon.');
-        box.prepend(h('p', { class: 'hint', text: `${rows.length} field${rows.length === 1 ? '' : 's'} found. The names come from the PDF itself.` }));
-        return { doc, rows };
+        const hint = h('p', { class: 'hint', text: 'Pick something to add, then tap the page where it should go.' });
+        const removeBtn = h('button', { type: 'button', class: 'btn sm', text: 'Remove selected', disabled: true, onclick: () => { st.items.splice(st.items.indexOf(st.sel), 1); st.sel = null; paint(pg.n, pg.ov); } });
+        const paint = (n, ov) => {
+          ov.replaceChildren(...st.items.filter(it => it.page === n).map(it => {
+            let e;
+            if (it.type === 'sig') { e = h('img', { src: pad.sig.url, class: 'it', alt: 'Signature' }); e.style.width = it.wf * 100 + '%'; e.style.left = (it.fx - it.wf / 2) * 100 + '%'; }
+            else { e = h('span', { class: 'it', text: it.type === 'check' ? '✓' : it.text }); e.style.fontSize = it.pt * ov.clientWidth / pg.pw + 'px'; e.style.left = it.fx * 100 + '%'; }
+            e.style.top = it.fy * 100 + '%'; if (it === st.sel) e.classList.add('sel');
+            e.addEventListener('click', ev => { ev.stopPropagation(); st.sel = it; paint(n, ov); });
+            return e;
+          }));
+          removeBtn.disabled = !st.sel;
+        };
+        const pad = sigPad(() => { if (!pad.sig) st.items = st.items.filter(it => it.type !== 'sig'); paint(pg.n, pg.ov); });
+        st.pad = pad;
+        const pg = pager(pdf, paint); pg.ov.classList.add('tap');
+        const text = h('input', { type: 'text', id: 'fs-text', placeholder: 'Your name, an address, a number…' });
+        const sz = h('select', { id: 'fs-size' }, [['9', 'Small'], ['11', 'Medium'], ['14', 'Large']].map(([v, l]) => h('option', Object.assign({ value: v, text: l }, v === '11' ? { selected: true } : {}))));
+        const arm = (mode, msg) => { st.mode = mode; hint.textContent = msg || 'Now tap the page where it should go. Tap again to add another.'; };
+        pg.ov.addEventListener('click', e => {
+          if (!st.mode) { hint.textContent = 'First choose what to add with one of the buttons above.'; return; }
+          const r = pg.ov.getBoundingClientRect(), it = Object.assign({ page: pg.n, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, pt: +sz.value, wf: { 9: 0.18, 11: 0.28, 14: 0.4 }[sz.value] }, st.mode);
+          st.items.push(it); st.sel = it; paint(pg.n, pg.ov);
+        });
+        if (rows.length) box.append(h('p', { class: 'step', text: `Form fields (${rows.length})` }), fbox);
+        box.append(
+          h('p', { class: 'step', text: 'Your signature (skip this if you do not need one)' }), pad.el,
+          h('p', { class: 'step', text: rows.length ? 'Add anything else to the page' : 'Add text, ticks and your signature' }),
+          h('div', { class: 'field' }, h('label', { for: 'fs-text', text: 'Text to add' }), text),
+          h('div', { class: 'field' }, h('label', { for: 'fs-size', text: 'Size' }), sz),
+          h('div', { class: 'row' },
+            h('button', { type: 'button', class: 'btn sm', text: 'Place this text', onclick: () => text.value.trim() ? arm({ type: 'text', text: text.value.trim() }) : arm(null, 'Type the text first.') }),
+            h('button', { type: 'button', class: 'btn sm', text: 'Place a tick', onclick: () => arm({ type: 'check' }) }),
+            h('button', { type: 'button', class: 'btn sm', text: 'Place today’s date', onclick: () => arm({ type: 'text', text: new Date().toLocaleDateString() }) }),
+            h('button', { type: 'button', class: 'btn sm', text: 'Place signature', onclick: () => pad.sig ? arm({ type: 'sig' }) : arm(null, 'Draw your signature in the box above first.') })),
+          hint, pg.el, h('div', { class: 'row' }, removeBtn));
+        await pg.show();
+        return st;
       },
-      run: async ([f], o, p, x) => {
+      run: async ([f], o, p, st) => {
+        const d = await lib(f); let fds = []; try { fds = d.getForm().getFields(); } catch (e) { /* no form */ }
         try {
-          for (const { fd, el, kind } of x.rows) {
+          for (const { k, el, kind } of st.rows) {
+            const fd = fds[k];
             if (kind === 'text') fd.setText(el.value || undefined);
             else if (kind === 'check') el.checked ? fd.check() : fd.uncheck();
             else if (el.value) fd.select(el.value);
             else if (kind === 'pick') fd.clear();
           }
-          if (o.flat) x.doc.getForm().flatten();
-          return [pdfOut(`${stem(f)}-filled.pdf`, await x.doc.save())];
+          const ink = L.rgb(0.06, 0.09, 0.16);
+          const font = await d.embedFont(L.StandardFonts.Helvetica), zap = st.items.some(it => it.type === 'check') ? await d.embedFont(L.StandardFonts.ZapfDingbats) : null;
+          const img = st.items.some(it => it.type === 'sig') && st.pad.sig ? await d.embedPng(st.pad.sig.url) : null;
+          for (const it of st.items) {
+            const pg = d.getPage(it.page - 1), fr = frame(pg), vx = it.fx * fr.vw, vy = (1 - it.fy) * fr.vh;
+            if (it.type === 'sig') { if (!img) continue; const w = it.wf * fr.vw, hh = w * st.pad.sig.ratio; pg.drawImage(img, Object.assign(fr.at(vx - w / 2, vy - hh / 2), { width: w, height: hh, rotate: L.degrees(fr.r) })); }
+            else pg.drawText(it.type === 'check' ? '\u2714' : it.text, Object.assign(fr.at(vx, vy - it.pt * 0.35), { size: it.pt, font: it.type === 'check' ? zap : font, color: ink, rotate: L.degrees(fr.r) }));
+          }
+          if (o.flat && st.rows.length) d.getForm().flatten();
+          return [pdfOut(`${stem(f)}-filled.pdf`, await d.save())];
         } catch (e) {
-          throw new Friendly(/encode|WinAnsi/i.test(e.message) ? 'One answer uses characters this form cannot show. Use plain Latin letters and numbers.' : /length/i.test(e.message) ? 'One answer is longer than its field allows. Shorten it and try again.' : 'This form could not be filled. It may use features that are not supported yet.');
+          if (e instanceof Friendly) throw e;
+          throw new Friendly(/encode|WinAnsi/i.test(e.message) ? 'Some of the text uses characters that cannot be written yet. Use plain Latin letters and numbers.' : /length/i.test(e.message) ? 'One answer is longer than its field allows. Shorten it and try again.' : 'This form could not be saved. It may use features that are not supported yet.');
         }
       },
     },
     'sign-pdf': {
       go: 'Sign PDF',
       setup: async ([f], box) => {
-        const pdf = await view(f), st = { place: null, wf: 0.3, sig: null };
-        const pad = h('canvas', { class: 'pad', width: 640, height: 240, 'aria-label': 'Draw your signature here' }), ctx = pad.getContext('2d');
-        ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#10182a';
-        let down = false;
-        const pt = e => { const r = pad.getBoundingClientRect(); return [(e.clientX - r.left) * pad.width / r.width, (e.clientY - r.top) * pad.height / r.height]; };
-        const trim = () => {
-          const d = ctx.getImageData(0, 0, pad.width, pad.height).data; let x0 = pad.width, y0 = pad.height, x1 = -1, y1 = -1;
-          for (let y = 0; y < pad.height; y++) for (let x = 0; x < pad.width; x++) if (d[(y * pad.width + x) * 4 + 3] > 10) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
-          if (x1 < 0) { st.sig = null; return; }
-          const c = document.createElement('canvas'); c.width = x1 - x0 + 9; c.height = y1 - y0 + 9;
-          c.getContext('2d').drawImage(pad, x0 - 4, y0 - 4, c.width, c.height, 0, 0, c.width, c.height);
-          st.sig = { url: c.toDataURL('image/png'), ratio: c.height / c.width };
-        };
+        const pdf = await view(f), st = { place: null, wf: 0.3 };
         const preview = ov => {
           ov.replaceChildren();
-          if (!st.place || st.place.page !== pg.n || !st.sig) return;
-          const im = h('img', { src: st.sig.url, alt: 'Your signature', class: 'sig' });
+          if (!st.place || st.place.page !== pg.n || !pad.sig) return;
+          const im = h('img', { src: pad.sig.url, alt: 'Your signature', class: 'sig' });
           im.style.width = st.wf * 100 + '%'; im.style.left = (st.place.fx - st.wf / 2) * 100 + '%'; im.style.top = st.place.fy * 100 + '%';
           ov.append(im);
         };
-        pad.addEventListener('pointerdown', e => { down = true; pad.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.moveTo(...pt(e)); ctx.lineTo(...pt(e)); ctx.stroke(); e.preventDefault(); });
-        pad.addEventListener('pointermove', e => { if (down) { ctx.lineTo(...pt(e)); ctx.stroke(); } });
-        const up = () => { if (down) { down = false; trim(); preview(pg.ov); } };
-        pad.addEventListener('pointerup', up); pad.addEventListener('pointercancel', up);
+        const pad = sigPad(() => preview(pg.ov)); st.pad = pad;
         const pg = pager(pdf, (n, ov) => preview(ov));
         pg.ov.classList.add('tap');
         pg.ov.addEventListener('click', e => { const r = pg.ov.getBoundingClientRect(); st.place = { page: pg.n, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height }; preview(pg.ov); });
         const slider = h('input', { type: 'range', id: 'sig-size', min: 10, max: 70, value: 30, oninput: e => { st.wf = e.target.value / 100; preview(pg.ov); } });
         box.append(
-          h('p', { class: 'step', text: '1. Draw your signature' }), pad,
-          h('button', { type: 'button', class: 'btn sm', text: 'Clear signature', onclick: () => { ctx.clearRect(0, 0, pad.width, pad.height); st.sig = null; preview(pg.ov); } }),
+          h('p', { class: 'step', text: '1. Draw your signature' }), pad.el,
           h('p', { class: 'step', text: '2. Tap the page where it should go' }), pg.el,
           h('div', { class: 'field' }, h('label', { for: 'sig-size', text: 'Signature size' }), slider));
         await pg.show();
         return st;
       },
       run: async ([f], o, p, st) => {
-        if (!st.sig) throw new Friendly('Draw your signature in the box first.');
+        const sig = st.pad.sig;
+        if (!sig) throw new Friendly('Draw your signature in the box first.');
         if (!st.place) throw new Friendly('Tap the page where the signature should go.');
-        const d = await lib(f), img = await d.embedPng(st.sig.url), pg = d.getPage(st.place.page - 1), fr = frame(pg);
-        const w = st.wf * fr.vw, hh = w * st.sig.ratio;
+        const d = await lib(f), img = await d.embedPng(sig.url), pg = d.getPage(st.place.page - 1), fr = frame(pg);
+        const w = st.wf * fr.vw, hh = w * sig.ratio;
         pg.drawImage(img, Object.assign(fr.at(st.place.fx * fr.vw - w / 2, (1 - st.place.fy) * fr.vh - hh / 2), { width: w, height: hh, rotate: L.degrees(fr.r) }));
         return [pdfOut(`${stem(f)}-signed.pdf`, await d.save())];
+      },
+    },
+    'protect-pdf': {
+      go: 'Protect PDF',
+      opts: [
+        { id: 'pw', label: 'Password', type: 'password', hint: 'Keep it somewhere safe. A forgotten password cannot be recovered by anyone.' },
+        { id: 'pw2', label: 'Type it again', type: 'password' },
+      ],
+      run: async ([f], o) => {
+        if (!o.pw) throw new Friendly('Type a password first.');
+        if (o.pw !== o.pw2) throw new Friendly('The two passwords do not match. Type them again.');
+        const d = await lib(f);
+        await d.encrypt({ userPassword: o.pw, ownerPassword: o.pw, permissions: { printing: 'highResolution', modifying: true, copying: true, annotating: true, fillingForms: true, contentAccessibility: true, documentAssembly: true } });
+        return [Object.assign(pdfOut(`${stem(f)}-protected.pdf`, await d.save()), { note: 'This file now asks for the password before it opens.' })];
+      },
+    },
+    'unlock-pdf': {
+      go: 'Unlock PDF',
+      opts: [{ id: 'pw', label: 'The password for this PDF', type: 'password', hint: 'This removes a password you already know. It cannot guess or break one.' }],
+      run: async ([f], o) => {
+        const buf = await f.arrayBuffer();
+        try { await L.PDFDocument.load(buf.slice(0)); throw new Friendly('This PDF has no password, so there is nothing to unlock.'); }
+        catch (e) { if (e instanceof Friendly) throw e; if (!/encrypt/i.test(e.message)) throw new Friendly(`"${f.name}" could not be read. It may be damaged. Try Repair PDF.`); }
+        if (!o.pw) throw new Friendly('Type the password for this PDF.');
+        let d;
+        try { d = await L.PDFDocument.load(buf, { password: o.pw }); }
+        catch (e) { throw new Friendly(/incorrect|password/i.test(e.message) ? 'That password is not right. Check it and try again.' : 'This PDF uses a kind of protection that cannot be removed here yet.'); }
+        // Drop the old encryption settings so the copy is a plain PDF.
+        const F = L.PDFName.of('Filter');
+        for (const [ref, obj] of d.context.enumerateIndirectObjects()) if (obj instanceof L.PDFDict && obj.has(F) && String(obj.get(F)) === '/Standard') d.context.delete(ref);
+        return [Object.assign(pdfOut(`${stem(f)}-unlocked.pdf`, await d.save()), { note: 'The password has been removed from this copy.' })];
       },
     },
     'redact-pdf': {
@@ -550,12 +678,13 @@
 
   /* ---------- the tool screen ---------- */
   function mount(root) {
-    const slug = root.dataset.tool, t = T[slug];
+    const t = T[root.dataset.tool], slug = root.dataset.key || root.dataset.tool, preset = root.dataset.preset ? JSON.parse(root.dataset.preset) : {};
     if (!t || root.dataset.on) return;
     root.dataset.on = '1';
+    (window.requestIdleCallback || setTimeout)(() => { engine().catch(() => {}); }, { timeout: 2500 });
     const img = t.kind === 'img', what = img ? 'image' : 'PDF';
     let files = [], extra = null, token = 0;
-    const accept = img ? 'image/*' : 'application/pdf,.pdf';
+    const accept = img ? 'image/*,.heic,.heif' : 'application/pdf,.pdf';
     const input = h('input', { type: 'file', id: `file-${slug}`, class: 'sr', accept, multiple: !!t.many });
     const cam = t.camera ? h('input', { type: 'file', id: `cam-${slug}`, class: 'sr', accept: 'image/*', capture: 'environment' }) : null;
     const drop = h('div', { class: 'drop' },
@@ -570,10 +699,10 @@
     optBox.addEventListener('submit', e => e.preventDefault());
 
     const fields = (t.opts || []).map(o => {
-      const id = `${slug}-${o.id}`; let el;
-      if (o.type === 'select') el = h('select', { id }, o.options.map(([v, l]) => h('option', Object.assign({ value: v, text: l }, v === String(o.value) ? { selected: true } : {}))));
-      else if (o.type === 'check') el = h('input', { id, type: 'checkbox' });
-      else el = h('input', { id, type: o.type, value: o.value != null ? o.value : null, placeholder: o.placeholder, min: o.min, inputmode: o.type === 'number' ? 'decimal' : null });
+      const id = `${slug}-${o.id}`, val = preset[o.id] != null ? preset[o.id] : o.value; let el;
+      if (o.type === 'select') el = h('select', { id }, o.options.map(([v, l]) => h('option', Object.assign({ value: v, text: l }, v === String(val) ? { selected: true } : {}))));
+      else if (o.type === 'check') { el = h('input', { id, type: 'checkbox' }); el.checked = !!val; }
+      else el = h('input', { id, type: o.type, value: val != null ? val : null, autocomplete: o.type === 'password' ? 'off' : null, placeholder: o.placeholder, min: o.min, inputmode: o.type === 'number' ? 'decimal' : null });
       const row = o.type === 'check' ? h('label', { class: 'field check', for: id }, el, h('span', { text: o.label })) : h('div', { class: 'field' }, h('label', { for: id, text: o.label }), el, o.hint ? h('p', { class: 'hint', text: o.hint }) : null);
       optBox.append(row); return { o, el, row };
     });
@@ -585,7 +714,7 @@
     const fail = e => { if (!(e instanceof Friendly)) console.error(e); say(e instanceof Friendly ? e.message : 'Something went wrong with this file. Nothing was sent anywhere. Try again, or try a different file.', 'err'); };
 
     function add(fl) {
-      const ok = [...fl].filter(f => img ? /^image\//.test(f.type) || /\.(jpe?g|png|webp|gif|bmp|heic)$/i.test(f.name) : f.type === 'application/pdf' || /\.pdf$/i.test(f.name));
+      const ok = [...fl].filter(f => img ? /^image\//.test(f.type) || /\.(jpe?g|png|webp|gif|bmp|heic|heif)$/i.test(f.name) : f.type === 'application/pdf' || /\.pdf$/i.test(f.name));
       if (ok.length < fl.length) say(`Only ${what} files work here. ${fl.length - ok.length} file(s) were skipped.`, 'err'); else say('');
       files = t.many ? files.concat(ok) : ok.slice(0, 1);
       if (t.max && files.length > t.max) { files = files.slice(0, t.max); say(`This tool takes ${t.max} files. The extra ones were left out.`, 'err'); }
@@ -611,7 +740,7 @@
       if (files.length && !ready) say(`Add at least ${t.min} files.`);
       if (ready && t.setup) {
         goBtn.disabled = true; say('Opening the file…');
-        try { const x = await t.setup(files, custom); if (my !== token) return; extra = x; goBtn.disabled = false; say(''); }
+        try { await engine(); const x = await t.setup(files, custom); if (my !== token) return; extra = x; goBtn.disabled = false; say(''); }
         catch (e) { if (my === token) fail(e); }
       }
     }
@@ -619,6 +748,7 @@
     goBtn.addEventListener('click', async () => {
       goBtn.disabled = true; res.replaceChildren(); say('Working…', 'busy');
       try {
+        await engine();
         const out = await t.run(files, values(), s => say(`Working… ${s}`, 'busy'), extra);
         say('');
         if (out.view) { res.append(h('div', { class: 'done' }, h('h2', { text: 'Result' }), h('p', { text: out.note }), out.view)); }
